@@ -243,7 +243,7 @@ class _profilePageState extends State<profilePage> {
             SizedBox(
               height: 50,
             ),
-            Center(
+            const Center(
               child: Text(
                 'Version 1.0.0',
                 style: TextStyle(color: Colors.grey, fontSize: 14),
