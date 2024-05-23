@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class chatPage extends StatefulWidget {
   final String sellerName;
@@ -35,11 +36,28 @@ class _chatPageState extends State<chatPage> {
     _controller.clear();
   }
 
+  Future<void> urlLauncher(String uri) async {
+    try {
+      final url = Uri.parse(uri);
+      await launchUrl(url);
+    } catch (e) {
+      print("Error launching URL: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Chat with ${widget.sellerName}'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                urlLauncher(
+                    "https://www.google.com/maps/dir//26.5104409,80.2266097/@26.5107991,80.2262428,17.95z/data=!4m2!4m1!3e2?entry=ttu");
+              },
+              icon: Icon(Icons.location_on_outlined))
+        ],
       ),
       body: Column(
         children: [
