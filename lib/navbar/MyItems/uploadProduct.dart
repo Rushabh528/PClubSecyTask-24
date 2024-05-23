@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../widgets/myItemsCard.dart';
 
@@ -15,12 +16,12 @@ class UploadProduct extends StatefulWidget {
 }
 
 class _UploadProductState extends State<UploadProduct> {
+  List<String> images = [];
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
   TextEditingController controller3 = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
-  List<String> images = [];
 
   Future<void> _pickImageGallery() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -49,13 +50,6 @@ class _UploadProductState extends State<UploadProduct> {
     });
   }
 
-  void _removeProduct(int index) {
-    if (!mounted) return;
-    setState(() {
-      productCards.removeAt(index);
-    });
-  }
-
   void _uploadProduct() {
     if (controller1.text.isEmpty ||
         controller2.text.isEmpty ||
@@ -75,18 +69,21 @@ class _UploadProductState extends State<UploadProduct> {
           itemName: controller1.text,
           itemPrice: controller3.text,
           itemDescription: controller2.text,
-          itemImage: images[0],
+          images: images,
           Remove: () {
             productCards.removeAt(productCards.length - 1);
             widget.refreshParent();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Product removed successfully!')),
+            );
           },
+          refresh: widget.refreshParent,
         ),
       );
 
       controller1.clear();
       controller2.clear();
       controller3.clear();
-      images.clear();
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -104,6 +101,13 @@ class _UploadProductState extends State<UploadProduct> {
     controller2.dispose();
     controller3.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    images = [];
   }
 
   @override
@@ -164,6 +168,7 @@ class _UploadProductState extends State<UploadProduct> {
               TextFormField(
                 cursorColor: Color(0xff990011),
                 controller: controller3,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
                     hintText: "",
                     focusedBorder: OutlineInputBorder(
