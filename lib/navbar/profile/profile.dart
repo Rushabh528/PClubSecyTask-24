@@ -240,26 +240,6 @@ class _profilePageState extends State<profilePage> {
                 ),
               ),
             ),
-            InkWell(
-              onTap: () {},
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Material(
-                  elevation: 4,
-                  shadowColor: Color(0xFF000000),
-                  child: ListTile(
-                    tileColor: const Color(0xff990011).withOpacity(0.2),
-                    title: Text(
-                      "Update Password",
-                      style: TextStyle(
-                        fontFamily: "Inter",
-                      ),
-                    ),
-                    trailing: Icon((Icons.arrow_forward_ios)),
-                  ),
-                ),
-              ),
-            ),
             SizedBox(
               height: 50,
             ),
